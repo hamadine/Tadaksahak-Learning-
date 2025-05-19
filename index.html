@@ -5,14 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Apprendre le Tadaksahak</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fcebd5;
+      color: #4b2e1f;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 1rem;
+    }
+    main {
+      background-color: #fff5e1;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+    }
+    #motTexte {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    #definition {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    #compteur {
+      margin-top: 1rem;
+      font-style: italic;
+      color: #6e4a31;
+    }
+    #navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    button {
+      background-color: #c75c24;
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #a7491d;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #7c5c44;
+    }
+    #audioButtons {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <main>
     <div id="mot">
-      <h2 id="motTexte">konàri</h2>
-      <p id="definition">Allons-y (action d'être accompagné quelque part)</p>
+      <h2 id="motTexte">...</h2>
+      <p id="definition">...</p>
       <p id="compteur">1 / 100</p>
-
+      <div id="audioButtons">
+        <button onclick="jouerTadaksahak()">▶️ Tadaksahak</button>
+      </div>
       <div id="navigation">
         <button onclick="motPrecedent()">◀️ Précédent</button>
         <button onclick="motSuivant()">Suivant ▶️</button>
@@ -25,105 +85,64 @@
   </footer>
 
   <script>
-    const mots = [
+    const mots = [// Les 50 premiers mots avec audio activé
+      { mot: "konàri", def: "Allons-y (action d'être accompagné quelque part)", audioMot: "audios/konari_mot.mp3" },
+      { mot: "koykât", def: "viens (ordre de venir)", audioMot: "audios/koykât_mot.mp3" },
+      { mot: "adabàra", def: "solution", audioMot: "audios/adabàra_mot.mp3" },
+      { mot: "adibit", def: "il, ça peut", audioMot: "audios/adibit_mot.mp3" },
+      { mot: "ŋâ", def: "manges (ordre de manger)", audioMot: "audios/ŋâ_mot.mp3" },
+      { mot: "wa ŋâ", def: "mangez", audioMot: "audios/wa ŋâ_mot.mp3" },
+      { mot: "dini", def: "tiens", audioMot: "audios/dini_mot.mp3" },
+      { mot: "wa dini", def: "tenez", audioMot: "audios/wa dini_mot.mp3" },
+      { mot: "dina", def: "attrape le, attrape ça", audioMot: "audios/dina_mot.mp3" },
+      { mot: "wa dina", def: "attrapez-le, attrapez ça", audioMot: "audios/wa dina_mot.mp3" },
+      { mot: "ccûdû", def: "ramasses", audioMot: "audios/ccûdû_mot.mp3" },
+      { mot: "wa ccûdû", def: "ramassez", audioMot: "audios/wa ccûdû_mot.mp3" },
+      { mot: "zûrû", def: "coures", audioMot: "audios/zûrû_mot.mp3" },
+      { mot: "wa zûrû", def: "courez", audioMot: "audios/wa zûrû_mot.mp3" },
+      { mot: "gôrâ", def: "assieds-toi", audioMot: "audios/gôrâ_mot.mp3" },
+      { mot: "wa gôra", def: "asseyez-vous", audioMot: "audios/wa gôra_mot.mp3" },
+      { mot: "anga", def: "lui, il, elle", audioMot: "audios/anga_mot.mp3" },
+      { mot: "îngi", def: "eux, elles", audioMot: "audios/îngi_mot.mp3" },
+      { mot: "aḍriẓ", def: "la sauce", audioMot: "audios/aḍriẓ_mot.mp3" },
+      { mot: "tàfɣat", def: "le riz", audioMot: "audios/tàfɣat_mot.mp3" },
+      { mot: "abôrâ", def: "le sorgho", audioMot: "audios/abôrâ_mot.mp3" },
+      { mot: "ḥaïni", def: "le mil", audioMot: "audios/ḥaïni_mot.mp3" },
+      { mot: "asimid", def: "le semoule de blé", audioMot: "audios/asimid_mot.mp3" },
+      { mot: "tànžat", def: "le haricot", audioMot: "audios/tànžat_mot.mp3" },
+      { mot: "ălbüṣül", def: "l'oignon", audioMot: "audios/ălbüṣül_mot.mp3" },
+      { mot: "nànga", def: "péché / faute", audioMot: "audios/nànga_mot.mp3" },
+      { mot: "nda", def: "et", audioMot: "audios/nda_mot.mp3" },
+      { mot: "andi", def: "vous", audioMot: "audios/andi_mot.mp3" },
+      { mot: "àrî", def: "nous", audioMot: "audios/àrî_mot.mp3" },
+      { mot: "ni", def: "tu", audioMot: "audios/ni_mot.mp3" },
+      { mot: "a", def: "il, elle, ça", audioMot: "audios/a_mot.mp3" },
+      { mot: "aɣày", def: "moi", audioMot: "audios/aɣày_mot.mp3" },
+      { mot: "ɣa", def: "je", audioMot: "audios/ɣa_mot.mp3" },
+      { mot: "ɣab", def: "je (en action)", audioMot: "audios/ɣab_mot.mp3" },
+      { mot: "nib", def: "tu (en action)", audioMot: "audios/nib_mot.mp3" },
+      { mot: "ib", def: "ils/elles (en action)", audioMot: "audios/ib_mot.mp3" },
+      { mot: "íbatan", def: "balle (écorce de céréales)", audioMot: "audios/íbatan_mot.mp3" },
+      { mot: "wéyni", def: "soleil", audioMot: "audios/wéyni_mot.mp3" },
+      { mot: "aṣahar", def: "couvercle", audioMot: "audios/aṣahar_mot.mp3" },
+      { mot: "yaw", def: "Viens — Ordre de venir", audioMot: "audios/yaw_mot.mp3" },
+      { mot: "aférig", def: "enclo", audioMot: "audios/aférig_mot.mp3" },
+      { mot: "huwa", def: "lait", audioMot: "audios/huwa_mot.mp3" },
+      { mot: "ccoho", def: "Quoi?", audioMot: "audios/ccoho_mot.mp3" },
+      { mot: "dida", def: "Pars", audioMot: "audios/dida_mot.mp3" },
+      { mot: "koy", def: "Vas-y (ordre)", audioMot: "audios/koy_mot.mp3" },
+      { mot: "nîn", def: "Toi", audioMot: "audios/nîn_mot.mp3" },
+      { mot: "zawkat", def: "Amène", audioMot: "audios/zawkat_mot.mp3" },
+      { mot: "mànà", def: "Il, c'est où ?", audioMot: "audios/mànà_mot.mp3" },
 
-      // --- PHRASES / ACTIONS ---
-      { mot: "adabàra", def: "solution" },
-      { mot: "adibit", def: "il, ça peut" },
-      { mot: "adída", def: "Il est parti" },
-      { mot: "akó", def: "Il, c'est allé" },
-      { mot: "âcci", def: "Il a dit" },
-      { mot: "ccoho", def: "Quoi?" },
-      { mot: "ccindén", def: "Certains, d'autres" },
-      { mot: "ccídi", def: "Le sel" },
-      { mot: "ccími", def: "La vérité" },
-      { mot: "ccédi", def: "La cuillère" },
-      { mot: "ccíjí", def: "La nuit" },
-      { mot: "ccûdû", def: "ramasses" },
-      { mot: "dida", def: "Pars" },
-      { mot: "dina", def: "attrape le, attrape ça" },
-      { mot: "dini", def: "tiens" },
-      { mot: "gôrâ", def: "assieds-toi" },
-      { mot: "koy", def: "Vas-y (ordre) (homonyme de 'Seigneur')" },
-      { mot: "koykât", def: "viens (ordre de venir)" },
-      { mot: "tifak", def: "Demain" },
-      { mot: "wa ccûdû", def: "ramassez" },
-      { mot: "wa dina", def: "attrapez-le, attrapez ça" },
-      { mot: "wa dini", def: "tenez" },
-      { mot: "wa gôra", def: "asseyez-vous" },
-      { mot: "wa ŋâ", def: "mangez" },
-      { mot: "wa zûrû", def: "courez" },
-      { mot: "yaw", def: "Viens — Ordre de venir" },
-      { mot: "yíli", def: "Sors" },
-      { mot: "zarosé", def: "Après-demain" },
-      { mot: "zornád", def: "Avant-hier" },
-      { mot: "zàrod", def: "Aujourd’hui" },
-      { mot: "zûrû", def: "coures" },
-
-      // --- NOMS COMMUNS ---
-      { mot: "abér", def: "C'est grand ou gros" },
-      { mot: "abôrâ", def: "le sorgho" },
-      { mot: "aférig", def: "enclo" },
-      { mot: "akatab", def: "Une écriture" },
-      { mot: "al-fâjér", def: "Le matin" },
-      { mot: "alwâq", def: "L'heure" },
-      { mot: "Ammûnṣṣû", def: "La nourriture" },
-      { mot: "asimid", def: "le semoule de blé" },
-      { mot: "aṣahar", def: "couvercle" },
-      { mot: "atri", def: "L'étoile" },
-      { mot: "ažžãmán", def: "Le temps" },
-      { mot: "bàngû", def: "Le puits" },
-      { mot: "bangû", def: "La tête" },
-      { mot: "bààri", def: "Le cheval" },
-      { mot: "féji", def: "Le mouton" },
-      { mot: "fûfû", def: "Le froid" },
-      { mot: "gûngû", def: "Le ventre" },
-      { mot: "gànda", def: "La terre ou le pays" },
-      { mot: "hàmû", def: "La viande" },
-      { mot: "hanjén", def: "Les oreilles" },
-      { mot: "hâwrû", def: "Le repas" },
-      { mot: "hínccini", def: "La chèvre" },
-      { mot: "huwa", def: "lait" },
-      { mot: "íbatan", def: "balle (écorce de céréales)" },
-      { mot: "jínjiri", def: "La prière" },
-      { mot: "jî", def: "L'huile" },
-      { mot: "kanmba", def: "La main" },
-      { mot: "kanmbén", def: "Les mains" },
-      { mot: "kôṛà", def: "La chaleur" },
-      { mot: "mô", def: "L'œil" },
-      { mot: "môon", def: "Les yeux" },
-      { mot: "abăkaḍ", def: "péché / faute" },
-      { mot: "tàfɣat", def: "le riz" },
-      { mot: "tàlast", def: "L'obscurité" },
-      { mot: "tànžat", def: "le haricot" },
-      { mot: "tôrouf", def: "La voiture" },
-      { mot: "tûgûdû", def: "L'arbre" },
-      { mot: "úṣûm", def: "Le jeûne" },
-      { mot: "yéy", def: "La fraîcheur" },
-      { mot: "yow", def: "La chamelle" },
-      { mot: "zûkmûź", def: "Grattes (ordre de gratter)" },
-      { mot: "àssakûr", def: "Le sucre" },
-      { mot: "àḍaḍ", def: "Le doigt" },
-      { mot: "âcckâr", def: "L'ongle" },
-      { mot: "âyâr", def: "La lune" },
-      { mot: "ălbüṣül", def: "l'oignon" },
-      { mot: "ḥaïni", def: "le mil" },
-      { mot: "Ítràn", def: "Les étoiles" },
-
-      // --- PRONOMS PERSONNELS ---
-      { mot: "a", def: "il, elle, ça" },
-      { mot: "anga", def: "lui, il, elle" },
-      { mot: "andi", def: "vous" },
-      { mot: "àrî", def: "nous" },
-      { mot: "aɣày", def: "moi" },
-      { mot: "ɣa", def: "je" },
-      { mot: "ɣab", def: "je (en action)" },
-      { mot: "nib", def: "tu (en action)" },
-      { mot: "ib", def: "ils/elles (en action)" },
-      { mot: "mané?", def: "Où?" },
-      { mot: "mànà", def: "Il, c'est où ?" },
-      { mot: "nîn", def: "Toi" },
-      { mot: "ni", def: "tu" }
+      // Le reste sans audio
+      { mot: "mané?", def: "Où?", audioMot: null },
+      { mot: "âcci", def: "Il a dit", audioMot: null },
+      { mot: "zàrod", def: "Aujourd’hui", audioMot: null },
+      { mot: "zornád", def: "Avant-hier", audioMot: null },
+      { mot: "tifak", def: "Demain", audioMot: null },
+      { mot: "ccindén", def: "Certains, d'autres", audioMot: null },
+      { mot: "yíli", def: "Sors", audioMot: null }
 
     ];
 
@@ -144,6 +163,17 @@
     function motPrecedent() {
       index = (index - 1 + mots.length) % mots.length;
       afficherMot();
+    }
+
+    function jouerTadaksahak() {
+      const audio = new Audio();
+      const source = mots[index].audioMot;
+      if (source) {
+        audio.src = source;
+        audio.play();
+      } else {
+        alert("Audio Tadaksahak non disponible pour ce mot.");
+      }
     }
 
     window.onload = afficherMot;
