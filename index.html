@@ -1,83 +1,73 @@
-/* Palette du coucher de soleil dans le désert */
-:root {
-  --fond-principal: #fcebd5;
-  --texte-principal: #4b2e1f;
-  --accent: #d9822b;
-  --ombre: rgba(0, 0, 0, 0.1);
-  --fond-carte: #fff5e1;
-  --bouton: #c75c24;
-  --bouton-texte: #fff;
-  --bouton-hover: #a7491d;
-}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apprendre le Tadaksahak</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div id="mot">
+        <h2 id="motTexte">Konàri</h2>
+        <p id="definition">Allons-y (action d'être accompagné quelque part)</p>
+        <p id="compteur">1 / 20</p>
 
-body {
-  background-color: var(--fond-principal);
-  color: var(--texte-principal);
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 1rem;
-}
+        <div id="navigation">
+          <button onclick="motPrecedent()">◀️ Précédent</button>
+          <button onclick="motSuivant()">Suivant ▶️</button>
+        </div>
+      </div>
+    </main>
 
-h1, h2, h3 {
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
+    <footer>
+      <p>&copy; 2025 • Tadaksahak Learning</p>
+    </footer>
 
-main {
-  background-color: var(--fond-carte);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px var(--ombre);
-  max-width: 700px;
-  margin: auto;
-}
+    <script>
+      const mots = [
+        { mot: "Konàri", def: "Allons-y (action d'être accompagné quelque part)" },
+        { mot: "íbatan", def: "balle (écorce de céréales)" },
+        { mot: "Wéyni", def: "soleil" },
+        { mot: "asaher", def: "couvercle" },
+        { mot: "Yaw", def: "Viens — Ordre de venir" },
+        { mot: "aférig", def: "enclo" },
+        { mot: "hoùwa", def: "lait" },
+        { mot: "Tchòho", def: "Quoi?" },
+        { mot: "Dida", def: "Pars" },
+        { mot: "Koy", def: "Vas-y (ordre)" },
+        { mot: "Nín", def: "Toi" },
+        { mot: "Zawkat", def: "Amène" },
+        { mot: "Mànà", def: "Il, c'est où ?" },
+        { mot: "Mané?", def: "Où?" },
+        { mot: "Àtchi", def: "Il a dit" },
+        { mot: "Zàrod", def: "Aujourd’hui" },
+        { mot: "Zornád", def: "Avant-hier" },
+        { mot: "Tifak", def: "Demain" },
+        { mot: "Tchindén", def: "Certains, d'autres" },
+        { mot: "Yílli", def: "Sors" }
+      ];
 
-#mot {
-  text-align: center;
-}
+      let index = 0;
 
-#motTexte {
-  font-size: 2rem;
-  font-weight: bold;
-}
+      function afficherMot() {
+        const motActuel = mots[index];
+        document.getElementById("motTexte").innerText = motActuel.mot;
+        document.getElementById("definition").innerText = motActuel.def;
+        document.getElementById("compteur").innerText = `${index + 1} / ${mots.length}`;
+      }
 
-#definition {
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
-  color: var(--texte-principal);
-}
+      function motSuivant() {
+        index = (index + 1) % mots.length;
+        afficherMot();
+      }
 
-#compteur {
-  margin-top: 1rem;
-  font-style: italic;
-  color: #6e4a31;
-}
+      function motPrecedent() {
+        index = (index - 1 + mots.length) % mots.length;
+        afficherMot();
+      }
 
-#navigation {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-
-button {
-  background-color: var(--bouton);
-  color: var(--bouton-texte);
-  border: none;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 48%;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: var(--bouton-hover);
-}
-
-footer {
-  text-align: center;
-  margin-top: 3rem;
-  font-size: 0.9rem;
-  color: #7c5c44;
-}
+      window.onload = afficherMot;
+    </script>
+  </body>
+</html>
