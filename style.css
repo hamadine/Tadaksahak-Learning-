@@ -1,0 +1,83 @@
+/* Palette du coucher de soleil dans le désert */
+:root {
+  --fond-principal: #fcebd5;
+  --texte-principal: #4b2e1f;
+  --accent: #d9822b;
+  --ombre: rgba(0, 0, 0, 0.1);
+  --fond-carte: #fff5e1;
+  --bouton: #c75c24;
+  --bouton-texte: #fff;
+  --bouton-hover: #a7491d;
+}
+
+body {
+  background-color: var(--fond-principal);
+  color: var(--texte-principal);
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 1rem;
+}
+
+h1, h2, h3 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+main {
+  background-color: var(--fond-carte);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px var(--ombre);
+  max-width: 700px;
+  margin: auto;
+}
+
+#mot {
+  text-align: center;
+}
+
+#motTexte {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#definition {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  color: var(--texte-principal);
+}
+
+#compteur {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #6e4a31;
+}
+
+#navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+button {
+  background-color: var(--bouton);
+  color: var(--bouton-texte);
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 48%;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--bouton-hover);
+}
+
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: #7c5c44;
+}
