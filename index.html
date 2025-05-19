@@ -1,121 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Apprendre le Tadaksahak</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main>
-      <div id="mot">
-        <h2 id="motTexte">konàri</h2>
-        <p id="definition">Allons-y (action d'être accompagné quelque part)</p>
-        <p id="compteur">1 / 70</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apprendre le Tadaksahak</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <div id="mot">
+      <h2 id="motTexte">konàri</h2>
+      <p id="definition">Allons-y (action d'être accompagné quelque part)</p>
+      <p id="compteur">1 / 100</p>
 
-        <div id="navigation">
-          <button onclick="motPrecedent()">◀️ Précédent</button>
-          <button onclick="motSuivant()">Suivant ▶️</button>
-        </div>
+      <div id="navigation">
+        <button onclick="motPrecedent()">◀️ Précédent</button>
+        <button onclick="motSuivant()">Suivant ▶️</button>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <footer>
-      <p>&copy; 2025 • Tadaksahak Learning</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 • Tadaksahak Learning</p>
+  </footer>
 
-    <script>
-      const mots = [
-        { mot: "konàri", def: "Allons-y (action d'être accompagné quelque part)" },
-        { mot: "íbatan", def: "balle (écorce de céréales)" },
-        { mot: "wéyni", def: "soleil" },
-        { mot: "aṣahar", def: "couvercle" },
-        { mot: "yaw", def: "Viens — Ordre de venir" },
-        { mot: "aférig", def: "enclo" },
-        { mot: "huwa", def: "lait" },
-        { mot: "ccoho", def: "Quoi?" },
-        { mot: "dida", def: "Pars" },
-        { mot: "koy", def: "Vas-y (ordre) (homonyme de 'Seigneur')" },
-        { mot: "nîn", def: "Toi" },
-        { mot: "zawkat", def: "Amène" },
-        { mot: "Mànà", def: "Il, c'est où ?" },
-        { mot: "Mané?", def: "Où?" },
-        { mot: "Acci", def: "Il a dit" },
-        { mot: "zàrod", def: "Aujourd’hui" },
-        { mot: "zornád", def: "Avant-hier" },
-        { mot: "tifak", def: "Demain" },
-        { mot: "ccindén", def: "Certains, d'autres" },
-        { mot: "yílli", def: "Sors" },
-        { mot: "bî", def: "Hier (homonyme d'ombre dans certaines phrases)" },
-        { mot: "zarosé", def: "Après-demain" },
-        { mot: "abér", def: "C'est grand ou gros" },
-        { mot: "accéna", def: "C'est petit ou peu" },
-        { mot: "tûgûdû", def: "L'arbre" },
-        { mot: "yow", def: "La chamelle" },
-        { mot: "fééji", def: "Le mouton" },
-        { mot: "hínccini", def: "La chèvre" },
-        { mot: "bààri", def: "Le cheval" },
-        { mot: "gànda", def: "La terre ou le pays" },
-        { mot: "tôrouf", def: "La voiture" },
-        { mot: "ayâr", def: "La lune" },
-        { mot: "ccéédi", def: "La cuillère" },
-        { mot: "al-fâjér", def: "Le matin" },
-        { mot: "ccídjí", def: "La nuit" },
-        { mot: "tàlast", def: "L'obscurité" },
-        { mot: "yéy", def: "La fraîcheur" },
-        { mot: "kôrrà", def: "La chaleur" },
-        { mot: "fûfû", def: "Le froid" },
-        { mot: "zûkmûź", def: "Grattes (ordre de gratter)" },
-        { mot: "gûngû", def: "Le ventre" },
-        { mot: "bangû", def: "La tête" },
-        { mot: "bàngû", def: "Le puits" },
-        { mot: "kanmba", def: "La main" },
-        { mot: "kanmbén", def: "Les mains" },
-        { mot: "mô", def: "L'œil" },
-        { mot: "môon", def: "Les yeux" },
-        { mot: "hànga", def: "L'oreille" },
-        { mot: "hanjén", def: "Les oreilles" },
-        { mot: "àḍaḍ", def: "Le doigt" },
-        { mot: "âcckâr", def: "L'ongle" },
-        { mot: "adída", def: "Il est parti" },
-        { mot: "akó", def: "Il, c'est allé" },
-        { mot: "akatab", def: "Une écriture" },
-        { mot: "atri", def: "L'étoile" },
-        { mot: "Ítràn", def: "Les étoiles" },
-        { mot: "jínjiri", def: "La prière" },
-        { mot: "taṣaḷit", def: "La fête" },
-        { mot: "úṣûm", def: "Le jeûne" },
-        { mot: "alwâq", def: "L'heure" },
-        { mot: "ažžãmán", def: "Le temps" },
-        { mot: "ccími", def: "La vérité" },
-        { mot: "ccídi", def: "Le sel" },
-        { mot: "Âssakùr", def: "Le sucre" },
-        { mot: "jî", def: "L'huile" },
-        { mot: "hàmû", def: "La viande" },
-        { mot: "hâwrû", def: "Le repas" },
-        { mot: "Ammûnṣṣû", def: "La nourriture" }
-      ];
+  <script>
+    const mots = [
 
-      let index = 0;
+      // --- PHRASES / ACTIONS ---
+      { mot: "adabàra", def: "solution" },
+      { mot: "adibit", def: "il, ça peut" },
+      { mot: "adída", def: "Il est parti" },
+      { mot: "akó", def: "Il, c'est allé" },
+      { mot: "âcci", def: "Il a dit" },
+      { mot: "ccoho", def: "Quoi?" },
+      { mot: "ccindén", def: "Certains, d'autres" },
+      { mot: "ccídi", def: "Le sel" },
+      { mot: "ccími", def: "La vérité" },
+      { mot: "ccédi", def: "La cuillère" },
+      { mot: "ccíjí", def: "La nuit" },
+      { mot: "ccûdû", def: "ramasses" },
+      { mot: "dida", def: "Pars" },
+      { mot: "dina", def: "attrape le, attrape ça" },
+      { mot: "dini", def: "tiens" },
+      { mot: "gôrâ", def: "assieds-toi" },
+      { mot: "koy", def: "Vas-y (ordre) (homonyme de 'Seigneur')" },
+      { mot: "koykât", def: "viens (ordre de venir)" },
+      { mot: "tifak", def: "Demain" },
+      { mot: "wa ccûdû", def: "ramassez" },
+      { mot: "wa dina", def: "attrapez-le, attrapez ça" },
+      { mot: "wa dini", def: "tenez" },
+      { mot: "wa gôra", def: "asseyez-vous" },
+      { mot: "wa ŋâ", def: "mangez" },
+      { mot: "wa zûrû", def: "courez" },
+      { mot: "yaw", def: "Viens — Ordre de venir" },
+      { mot: "yíli", def: "Sors" },
+      { mot: "zarosé", def: "Après-demain" },
+      { mot: "zornád", def: "Avant-hier" },
+      { mot: "zàrod", def: "Aujourd’hui" },
+      { mot: "zûrû", def: "coures" },
 
-      function afficherMot() {
-        const motActuel = mots[index];
-        document.getElementById("motTexte").innerText = motActuel.mot;
-        document.getElementById("definition").innerText = motActuel.def;
-        document.getElementById("compteur").innerText = `${index + 1} / ${mots.length}`;
-      }
+      // --- NOMS COMMUNS ---
+      { mot: "abér", def: "C'est grand ou gros" },
+      { mot: "abôrâ", def: "le sorgho" },
+      { mot: "aférig", def: "enclo" },
+      { mot: "akatab", def: "Une écriture" },
+      { mot: "al-fâjér", def: "Le matin" },
+      { mot: "alwâq", def: "L'heure" },
+      { mot: "Ammûnṣṣû", def: "La nourriture" },
+      { mot: "asimid", def: "le semoule de blé" },
+      { mot: "aṣahar", def: "couvercle" },
+      { mot: "atri", def: "L'étoile" },
+      { mot: "ažžãmán", def: "Le temps" },
+      { mot: "bàngû", def: "Le puits" },
+      { mot: "bangû", def: "La tête" },
+      { mot: "bààri", def: "Le cheval" },
+      { mot: "féji", def: "Le mouton" },
+      { mot: "fûfû", def: "Le froid" },
+      { mot: "gûngû", def: "Le ventre" },
+      { mot: "gànda", def: "La terre ou le pays" },
+      { mot: "hàmû", def: "La viande" },
+      { mot: "hanjén", def: "Les oreilles" },
+      { mot: "hâwrû", def: "Le repas" },
+      { mot: "hínccini", def: "La chèvre" },
+      { mot: "huwa", def: "lait" },
+      { mot: "íbatan", def: "balle (écorce de céréales)" },
+      { mot: "jínjiri", def: "La prière" },
+      { mot: "jî", def: "L'huile" },
+      { mot: "kanmba", def: "La main" },
+      { mot: "kanmbén", def: "Les mains" },
+      { mot: "kôṛà", def: "La chaleur" },
+      { mot: "mô", def: "L'œil" },
+      { mot: "môon", def: "Les yeux" },
+      { mot: "abăkaḍ", def: "péché / faute" },
+      { mot: "tàfɣat", def: "le riz" },
+      { mot: "tàlast", def: "L'obscurité" },
+      { mot: "tànžat", def: "le haricot" },
+      { mot: "tôrouf", def: "La voiture" },
+      { mot: "tûgûdû", def: "L'arbre" },
+      { mot: "úṣûm", def: "Le jeûne" },
+      { mot: "yéy", def: "La fraîcheur" },
+      { mot: "yow", def: "La chamelle" },
+      { mot: "zûkmûź", def: "Grattes (ordre de gratter)" },
+      { mot: "àssakûr", def: "Le sucre" },
+      { mot: "àḍaḍ", def: "Le doigt" },
+      { mot: "âcckâr", def: "L'ongle" },
+      { mot: "âyâr", def: "La lune" },
+      { mot: "ălbüṣül", def: "l'oignon" },
+      { mot: "ḥaïni", def: "le mil" },
+      { mot: "Ítràn", def: "Les étoiles" },
 
-      function motSuivant() {
-        index = (index + 1) % mots.length;
-        afficherMot();
-      }
+      // --- PRONOMS PERSONNELS ---
+      { mot: "a", def: "il, elle, ça" },
+      { mot: "anga", def: "lui, il, elle" },
+      { mot: "andi", def: "vous" },
+      { mot: "àrî", def: "nous" },
+      { mot: "aɣày", def: "moi" },
+      { mot: "ɣa", def: "je" },
+      { mot: "ɣab", def: "je (en action)" },
+      { mot: "nib", def: "tu (en action)" },
+      { mot: "ib", def: "ils/elles (en action)" },
+      { mot: "mané?", def: "Où?" },
+      { mot: "mànà", def: "Il, c'est où ?" },
+      { mot: "nîn", def: "Toi" },
+      { mot: "ni", def: "tu" }
 
-      function motPrecedent() {
-        index = (index - 1 + mots.length) % mots.length;
-        afficherMot();
-      }
+    ];
 
-      window.onload = afficherMot;
-    </script>
-  </body>
+    let index = 0;
+
+    function afficherMot() {
+      const motActuel = mots[index];
+      document.getElementById("motTexte").innerText = motActuel.mot;
+      document.getElementById("definition").innerText = motActuel.def;
+      document.getElementById("compteur").innerText = `${index + 1} / ${mots.length}`;
+    }
+
+    function motSuivant() {
+      index = (index + 1) % mots.length;
+      afficherMot();
+    }
+
+    function motPrecedent() {
+      index = (index - 1 + mots.length) % mots.length;
+      afficherMot();
+    }
+
+    window.onload = afficherMot;
+  </script>
+</body>
 </html>
