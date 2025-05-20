@@ -3,109 +3,197 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dictionnaire Tadaksahak</title>
+  <title>Apprendre le Tadaksahak</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f2e6dc;
+      background-color: #fcebd5;
+      color: #4b2e1f;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 2rem;
-      color: #3e1f0d;
-      text-align: center;
+      padding: 1rem;
     }
-    .card {
-      background: white;
-      border-radius: 10px;
+    main {
+      background-color: #fff5e1;
+      border-radius: 12px;
       padding: 2rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      max-width: 500px;
+      max-width: 700px;
       margin: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    input {
-      width: 80%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 2px solid #c97c39;
-      border-radius: 5px;
-      font-size: 1rem;
+    h2 {
+      color: #d9822b;
+      font-size: 2rem;
+    }
+    p {
+      font-size: 1.2rem;
     }
     button {
-      background: #c97c39;
-      color: white;
+      background-color: #c75c24;
+      color: #fff;
       border: none;
       padding: 10px 20px;
-      margin: 5px;
-      border-radius: 8px;
       font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
+      margin: 0.5rem;
     }
     button:hover {
-      background: #a9612b;
+      background-color: #a7491d;
     }
-    .mot {
-      font-size: 2rem;
-      font-weight: bold;
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border: 1px solid #d9822b;
+      border-radius: 8px;
     }
-    .def {
-      margin: 1rem 0;
+    #quizOptions button {
+      display: block;
+      width: 100%;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <input type="text" id="search" placeholder="Chercher un mot..." />
-    <div class="mot" id="mot">---</div>
-    <div class="def" id="def">Définition ici</div>
-    <audio id="audio" controls></audio>
-    <div>
-      <button onclick="playAudio()">Écouter</button>
-      <button onclick="nextWord()">Nouvelle question</button>
+  <main>
+    <input id="searchBar" type="text" placeholder="Chercher un mot..." oninput="rechercherMot()" />
+    <div id="motSection">
+      <h2 id="motTexte">...</h2>
+      <p id="definition">...</p>
+      <p id="compteur">1 / ...</p>
+      <button onclick="jouerAudio()">▶️ Écouter</button>
+      <div style="margin-top: 1rem;">
+        <button onclick="motPrecedent()">◀️ Précédent</button>
+        <button onclick="motSuivant()">Suivant ▶️</button>
+      </div>
     </div>
-  </div>
+
+    <div id="quiz" style="margin-top: 2rem;">
+      <h2 id="quizMot">...</h2>
+      <div id="quizOptions"></div>
+      <p id="quizResult"></p>
+      <button onclick="lancerQuiz()">Nouvelle question</button>
+    </div>
+  </main>
 
   <script>
-    const BASE_URL = "https://raw.githubusercontent.com/hamadine/Tadaksahak-Learning-/main/";
+    const BASE_URL = "https://raw.githubusercontent.com/hamadine/Tadaksahak-Learning-/main/gitkeep/";
 
     const mots = [
       { mot: "ábér", def: "C'est grand ou gros", audioMot: "aber_mot.mp3" },
-      { mot: "ízar", def: "Le matin", audioMot: "izar_mot.mp3" },
-      { mot: "ágat", def: "Il est parti", audioMot: "agat_mot.mp3" },
-      { mot: "ámás", def: "ramassez", audioMot: "amas_mot.mp3" },
-      { mot: "ákkát", def: "attrape-le, attrape ça", audioMot: "akkat_mot.mp3" }
+      { mot: "abôrâ", def: "Le sorgho", audioMot: "abora_mot.mp3" },
+      { mot: "âcci", def: "Il a dit", audioMot: "acci_mot.mp3" },
+      { mot: "adabàra", def: "solution", audioMot: "adabara_mot.mp3" },
+      { mot: "ádǝbǝt", def: "il, ça peut", audioMot: "adebet_mot.mp3" },
+      { mot: "ádǝda", def: "Il est parti", audioMot: "adeda_mot.mp3" },
+      { mot: "aférig", def: "enclos", audioMot: "aferig_mot.mp3" },
+      { mot: "ákatab", def: "Une écriture", audioMot: "akatab_mot.mp3" },
+      { mot: "akô", def: "Il, c'est allé", audioMot: "ako_mot.mp3" },
+      { mot: "alfâjér", def: "Le matin", audioMot: "alfajer_mot.mp3" },
+      { mot: "àlwâq", def: "L'heure", audioMot: "alwaq_mot.mp3" },
+      { mot: "Ammúnṣṣû", def: "La nourriture", audioMot: "ammunssu_mot.mp3" },
+      { mot: "aṣahar", def: "couvercle", audioMot: "asahar_mot.mp3" },
+      { mot: "asǝmid", def: "le semoule de blé", audioMot: "asǝmid_mot.mp3" },
+      { mot: "átri", def: "L'étoile", audioMot: "atri_mot.mp3" },
+      { mot: "ážžãmán", def: "Le temps", audioMot: "azzaman_mot.mp3" },
+      { mot: "bàngû", def: "Le puits", audioMot: "bangu_mot.mp3" },
+      { mot: "bãngû", def: "La tête", audioMot: "bangu2_mot.mp3" },
+      { mot: "bààri", def: "Le cheval", audioMot: "baari_mot.mp3" },
+      { mot: "ccéédi", def: "La cuillère", audioMot: "ccedi_mot.mp3" },
+      { mot: "ccídi", def: "Le sel", audioMot: "ccidi_mot.mp3" },
+      { mot: "ccíjí", def: "La nuit", audioMot: "cciji_mot.mp3" },
+      { mot: "ccími", def: "La vérité", audioMot: "ccimi_mot.mp3" },
+      { mot: "ccindén", def: "Certains, d'autres", audioMot: "ccinden_mot.mp3" },
+      { mot: "Tchòho", def: "Quoi?", audioMot: "ccoho_mot.mp3" },
+      { mot: "ccûdû", def: "ramasses", audioMot: "ccudu_mot.mp3" },
+      { mot: "Dida", def: "Pars", audioMot: "dida_mot.mp3" },
+      { mot: "dina", def: "attrape-le, attrape ça", audioMot: "dina_mot.mp3" },
+      { mot: "dini", def: "tiens", audioMot: "dini_mot.mp3" },
+      { mot: "Féédji", def: "Le mouton", audioMot: "feji_mot.mp3" },
+      { mot: "Foûfoü", def: "Le froid", audioMot: "fufu_mot.mp3" },
+      { mot: "Gànda", def: "La terre ou le pays", audioMot: "ganda_mot.mp3" },
+      { mot: "gôrâ", def: "assieds-toi", audioMot: "gora_mot.mp3" },
+      { mot: "Gùnğŭ", def: "Le ventre", audioMot: "gungun_mot.mp3" },
+      { mot: "Hààmoú", def: "La viande", audioMot: "hamu_mot.mp3" },
+      { mot: "íbatan", def: "balle (écorce de céréales)", audioMot: "ibatan_mot.mp3" },
+      { mot: "Koy", def: "Vas-y (ordre)", audioMot: "koy_mot.mp3" },
+      { mot: "Koykât", def: "viens (ordre de venir)", audioMot: "koykat_mot.mp3" },
+      { mot: "Tifak", def: "Demain", audioMot: "tifak_mot.mp3" },
+      { mot: "Wa ccûdû", def: "ramassez", audioMot: "waccudu_mot.mp3" },
+      { mot: "Wa dina", def: "attrapez-le, attrapez ça", audioMot: "wadina_mot.mp3" },
+      { mot: "Wa gôra", def: "asseyez-vous", audioMot: "wagora_mot.mp3" },
+      { mot: "Wa ŋâ", def: "mangez", audioMot: "waŋa_mot.mp3" },
+      { mot: "Wa zûrû", def: "courez", audioMot: "wazuru_mot.mp3" },
+      { mot: "Yaw", def: "Viens — Ordre de venir", audioMot: "yaw_mot.mp3" },
+      { mot: "Yílii", def: "Sors", audioMot: "yili_mot.mp3" },
+      { mot: "Zàrod", def: "Aujourd’hui", audioMot: "zarod_mot.mp3" },
+      { mot: "Zarossé", def: "Après-demain", audioMot: "zarose_mot.mp3" },
+      { mot: "Zornád", def: "Avant-hier", audioMot: "zornad_mot.mp3" },
+      { mot: "Zûrû", def: "Coures", audioMot: "zuru_mot.mp3" }
     ];
 
-    let current = 0;
+    let index = 0;
 
-    function showWord(index) {
-      const motData = mots[index];
-      document.getElementById("mot").textContent = motData.mot;
-      document.getElementById("def").textContent = motData.def;
-      const audio = document.getElementById("audio");
-      audio.src = BASE_URL + motData.audioMot;
-      audio.load();
+    function afficherMot() {
+      const motActuel = mots[index];
+      document.getElementById("motTexte").innerText = motActuel.mot;
+      document.getElementById("definition").innerText = motActuel.def;
+      document.getElementById("compteur").innerText = `${index + 1} / ${mots.length}`;
     }
 
-    function nextWord() {
-      current = (current + 1) % mots.length;
-      showWord(current);
+    function motSuivant() {
+      index = (index + 1) % mots.length;
+      afficherMot();
     }
 
-    function playAudio() {
-      const audio = document.getElementById("audio");
-      audio.play();
+    function motPrecedent() {
+      index = (index - 1 + mots.length) % mots.length;
+      afficherMot();
     }
 
-    document.getElementById("search").addEventListener("input", function () {
-      const val = this.value.toLowerCase();
-      const found = mots.find(m => m.mot.toLowerCase().includes(val));
+    function jouerAudio() {
+      const audio = new Audio(BASE_URL + mots[index].audioMot);
+      audio.play().catch(e => alert("Erreur audio : " + e.message));
+    }
+
+    function rechercherMot() {
+      const val = document.getElementById("searchBar").value.toLowerCase();
+      const found = mots.find((m) => m.mot.toLowerCase().includes(val));
       if (found) {
-        current = mots.indexOf(found);
-        showWord(current);
+        index = mots.indexOf(found);
+        afficherMot();
       }
-    });
+    }
 
-    // Init first word
-    showWord(current);
+    function lancerQuiz() {
+      const i = Math.floor(Math.random() * mots.length);
+      const motChoisi = mots[i];
+      document.getElementById("quizMot").innerHTML = `${motChoisi.mot} <button onclick="new Audio(BASE_URL + '${motChoisi.audioMot}').play()">▶️</button>`;
+      const options = [motChoisi.def];
+      while (options.length < 4) {
+        const def = mots[Math.floor(Math.random() * mots.length)].def;
+        if (!options.includes(def)) options.push(def);
+      }
+      options.sort(() => Math.random() - 0.5);
+      const quizOptions = document.getElementById("quizOptions");
+      quizOptions.innerHTML = "";
+      options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          document.getElementById("quizResult").innerText = opt === motChoisi.def
+            ? "Bonne réponse !"
+            : `Faux. Réponse correcte : ${motChoisi.def}`;
+        };
+        quizOptions.appendChild(btn);
+      });
+    }
+
+    window.onload = () => {
+      afficherMot();
+      lancerQuiz();
+    };
   </script>
 </body>
 </html>
