@@ -138,6 +138,8 @@
   </footer>
 
   <script>
+    const BASE_URL = "https://raw.githubusercontent.com/hamadine/Tadaksahak-Learning-/main/";
+
     const mots = [
       { mot: "ábér", def: "C'est grand ou gros", audioMot: "geetkeep/aber_mot.mp3" },
       { mot: "abôrâ", def: "Le sorgho", audioMot: "geetkeep/abora_mot.mp3" },
@@ -152,12 +154,12 @@
       { mot: "àlwâq", def: "L'heure", audioMot: "geetkeep/alwaq_mot.mp3" },
       { mot: "Ammúnṣṣû", def: "La nourriture", audioMot: "geetkeep/ammunssu_mot.mp3" },
       { mot: "aṣahar", def: "couvercle", audioMot: "geetkeep/asahar_mot.mp3" },
-      { mot: "asǝmid", def: "le semoule de blé", audioMot: "geetkeep/asǝmid_mot.mp3" },
+      { mot: "asǝmid", def: "le semoule de blé", audioMot: "geetkeep/asimid_mot.mp3" },
       { mot: "átri", def: "L'étoile", audioMot: "geetkeep/atri_mot.mp3" },
       { mot: "ážžãmán", def: "Le temps", audioMot: "geetkeep/azzaman_mot.mp3" },
       { mot: "bàngû", def: "Le puits", audioMot: "geetkeep/bangu_mot.mp3" },
       { mot: "bãngû", def: "La tête", audioMot: "geetkeep/bangu2_mot.mp3" },
-      { mot: "bààri", def: "Le cheval", audioMot: "geetkeep/bari_mot.mp3" },
+      { mot: "bààri", def: "Le cheval", audioMot: "geetkeep/baari_mot.mp3" },
       { mot: "ccéédi", def: "La cuillère", audioMot: "geetkeep/ccedi_mot.mp3" },
       { mot: "ccídi", def: "Le sel", audioMot: "geetkeep/ccidi_mot.mp3" },
       { mot: "ccíjí", def: "La nuit", audioMot: "geetkeep/cciji_mot.mp3" },
@@ -172,7 +174,7 @@
       { mot: "Foûfoü", def: "Le froid", audioMot: "geetkeep/fufu_mot.mp3" },
       { mot: "Gànda", def: "La terre ou le pays", audioMot: "geetkeep/ganda_mot.mp3" },
       { mot: "gôrâ", def: "assieds-toi", audioMot: "geetkeep/gora_mot.mp3" },
-      { mot: "Gùnğŭ", def: "Le ventre", audioMot: "geetkeep/gungun_mot.mp3" },
+      { mot: "Gùnğŭ", def: "Le ventre", audioMot: "geetkeep/gungu_mot.mp3" },
       { mot: "Hààmoú", def: "La viande", audioMot: "geetkeep/hamu_mot.mp3" },
       { mot: "íbatan", def: "balle (écorce de céréales)", audioMot: "geetkeep/ibatan_mot.mp3" },
       { mot: "Koy", def: "Vas-y (ordre)", audioMot: "geetkeep/koy_mot.mp3" },
@@ -181,10 +183,10 @@
       { mot: "Wa ccûdû", def: "ramassez", audioMot: "geetkeep/waccudu_mot.mp3" },
       { mot: "Wa dina", def: "attrapez-le, attrapez ça", audioMot: "geetkeep/wadina_mot.mp3" },
       { mot: "Wa gôra", def: "asseyez-vous", audioMot: "geetkeep/wagora_mot.mp3" },
-      { mot: "Wa ŋâ", def: "mangez", audioMot: "geetkeep/waŋa_mot.mp3" },
+      { mot: "Wa ŋâ", def: "mangez", audioMot: "geetkeep/wanja_mot.mp3" },
       { mot: "Wa zûrû", def: "courez", audioMot: "geetkeep/wazuru_mot.mp3" },
       { mot: "Yaw", def: "Viens — Ordre de venir", audioMot: "geetkeep/yaw_mot.mp3" },
-      { mot: "Yílii", def: "Sors", audioMot: "geetkeep/yílii_mot.mp3" },
+      { mot: "Yílii", def: "Sors", audioMot: "geetkeep/yili_mot.mp3" },
       { mot: "Zàrod", def: "Aujourd’hui", audioMot: "geetkeep/zarod_mot.mp3" },
       { mot: "Zarossé", def: "Après-demain", audioMot: "geetkeep/zarose_mot.mp3" },
       { mot: "Zornád", def: "Avant-hier", audioMot: "geetkeep/zornad_mot.mp3" },
@@ -211,13 +213,9 @@
     }
 
     function jouerTadaksahak(i = index) {
-      const source = mots[i].audioMot;
-      if (source) {
-        const audio = new Audio(source);
-        audio.play();
-      } else {
-        alert("Audio Tadaksahak non disponible.");
-      }
+      const source = BASE_URL + mots[i].audioMot;
+      const audio = new Audio(source);
+      audio.play().catch(e => alert("Audio indisponible : " + e.message));
     }
 
     function rechercherMot() {
