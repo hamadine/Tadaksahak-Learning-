@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Apprendre le Tadaksahak</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       background-color: #fcebd5;
@@ -69,7 +68,7 @@
     <div id="mot">
       <h2 id="motTexte">...</h2>
       <p id="definition">...</p>
-      <p id="compteur">1 / 100</p>
+      <p id="compteur">1 / 52</p>
       <div id="audioButtons">
         <button onclick="jouerTadaksahak()">▶️ Tadaksahak</button>
       </div>
@@ -85,65 +84,57 @@
   </footer>
 
   <script>
-    const mots = [// Les 50 premiers mots avec audio activé
-      { mot: "konàri", def: "Allons-y (action d'être accompagné quelque part)", audioMot: "audios/konari_mot.mp3" },
-      { mot: "koykât", def: "viens (ordre de venir)", audioMot: "audios/koykât_mot.mp3" },
-      { mot: "adabàra", def: "solution", audioMot: "audios/adabàra_mot.mp3" },
+    const mots = [
+      { mot: "aber", def: "C'est grand ou gros", audioMot: "audios/aber_mot.mp3" },
+      { mot: "abora", def: "Le sorgho", audioMot: "audios/abora_mot.mp3" },
+      { mot: "acci", def: "Il a dit", audioMot: "audios/acci_mot.mp3" },
+      { mot: "adabara", def: "solution", audioMot: "audios/adabara_mot.mp3" },
       { mot: "adibit", def: "il, ça peut", audioMot: "audios/adibit_mot.mp3" },
-      { mot: "ŋâ", def: "manges (ordre de manger)", audioMot: "audios/ŋâ_mot.mp3" },
-      { mot: "wa ŋâ", def: "mangez", audioMot: "audios/wa ŋâ_mot.mp3" },
-      { mot: "dini", def: "tiens", audioMot: "audios/dini_mot.mp3" },
-      { mot: "wa dini", def: "tenez", audioMot: "audios/wa dini_mot.mp3" },
-      { mot: "dina", def: "attrape le, attrape ça", audioMot: "audios/dina_mot.mp3" },
-      { mot: "wa dina", def: "attrapez-le, attrapez ça", audioMot: "audios/wa dina_mot.mp3" },
-      { mot: "ccûdû", def: "ramasses", audioMot: "audios/ccûdû_mot.mp3" },
-      { mot: "wa ccûdû", def: "ramassez", audioMot: "audios/wa ccûdû_mot.mp3" },
-      { mot: "zûrû", def: "coures", audioMot: "audios/zûrû_mot.mp3" },
-      { mot: "wa zûrû", def: "courez", audioMot: "audios/wa zûrû_mot.mp3" },
-      { mot: "gôrâ", def: "assieds-toi", audioMot: "audios/gôrâ_mot.mp3" },
-      { mot: "wa gôra", def: "asseyez-vous", audioMot: "audios/wa gôra_mot.mp3" },
-      { mot: "anga", def: "lui, il, elle", audioMot: "audios/anga_mot.mp3" },
-      { mot: "îngi", def: "eux, elles", audioMot: "audios/îngi_mot.mp3" },
-      { mot: "aḍriẓ", def: "la sauce", audioMot: "audios/aḍriẓ_mot.mp3" },
-      { mot: "tàfɣat", def: "le riz", audioMot: "audios/tàfɣat_mot.mp3" },
-      { mot: "abôrâ", def: "le sorgho", audioMot: "audios/abôrâ_mot.mp3" },
-      { mot: "ḥaïni", def: "le mil", audioMot: "audios/ḥaïni_mot.mp3" },
+      { mot: "adida", def: "Il est parti", audioMot: "audios/adida_mot.mp3" },
+      { mot: "aferig", def: "enclo", audioMot: "audios/aferig_mot.mp3" },
+      { mot: "akatab", def: "Une écriture", audioMot: "audios/akatab_mot.mp3" },
+      { mot: "ako", def: "Il, c'est allé", audioMot: "audios/ako_mot.mp3" },
+      { mot: "alfajer", def: "Le matin", audioMot: "audios/alfajer_mot.mp3" },
+      { mot: "alwaq", def: "L'heure", audioMot: "audios/alwaq_mot.mp3" },
+      { mot: "ammunssu", def: "La nourriture", audioMot: "audios/ammunssu_mot.mp3" },
+      { mot: "asahar", def: "couvercle", audioMot: "audios/asahar_mot.mp3" },
       { mot: "asimid", def: "le semoule de blé", audioMot: "audios/asimid_mot.mp3" },
-      { mot: "tànžat", def: "le haricot", audioMot: "audios/tànžat_mot.mp3" },
-      { mot: "ălbüṣül", def: "l'oignon", audioMot: "audios/ălbüṣül_mot.mp3" },
-      { mot: "nànga", def: "péché / faute", audioMot: "audios/nànga_mot.mp3" },
-      { mot: "nda", def: "et", audioMot: "audios/nda_mot.mp3" },
-      { mot: "andi", def: "vous", audioMot: "audios/andi_mot.mp3" },
-      { mot: "àrî", def: "nous", audioMot: "audios/àrî_mot.mp3" },
-      { mot: "ni", def: "tu", audioMot: "audios/ni_mot.mp3" },
-      { mot: "a", def: "il, elle, ça", audioMot: "audios/a_mot.mp3" },
-      { mot: "aɣày", def: "moi", audioMot: "audios/aɣày_mot.mp3" },
-      { mot: "ɣa", def: "je", audioMot: "audios/ɣa_mot.mp3" },
-      { mot: "ɣab", def: "je (en action)", audioMot: "audios/ɣab_mot.mp3" },
-      { mot: "nib", def: "tu (en action)", audioMot: "audios/nib_mot.mp3" },
-      { mot: "ib", def: "ils/elles (en action)", audioMot: "audios/ib_mot.mp3" },
-      { mot: "íbatan", def: "balle (écorce de céréales)", audioMot: "audios/íbatan_mot.mp3" },
-      { mot: "wéyni", def: "soleil", audioMot: "audios/wéyni_mot.mp3" },
-      { mot: "aṣahar", def: "couvercle", audioMot: "audios/aṣahar_mot.mp3" },
-      { mot: "yaw", def: "Viens — Ordre de venir", audioMot: "audios/yaw_mot.mp3" },
-      { mot: "aférig", def: "enclo", audioMot: "audios/aférig_mot.mp3" },
-      { mot: "huwa", def: "lait", audioMot: "audios/huwa_mot.mp3" },
+      { mot: "atri", def: "L'étoile", audioMot: "audios/atri_mot.mp3" },
+      { mot: "azzaman", def: "Le temps", audioMot: "audios/azzaman_mot.mp3" },
+      { mot: "bangu", def: "La tête", audioMot: "audios/bangu_mot.mp3" },
+      { mot: "bàngu", def: "Le puits", audioMot: "audios/bàngu_mot.mp3" },
+      { mot: "bari", def: "Le cheval", audioMot: "audios/bari_mot.mp3" },
+      { mot: "ccedi", def: "La cuillère", audioMot: "audios/ccedi_mot.mp3" },
+      { mot: "ccidi", def: "Le sel", audioMot: "audios/ccidi_mot.mp3" },
+      { mot: "cciji", def: "La nuit", audioMot: "audios/cciji_mot.mp3" },
+      { mot: "ccimi", def: "La vérité", audioMot: "audios/ccimi_mot.mp3" },
+      { mot: "ccinden", def: "Certains, d'autres", audioMot: "audios/ccinden_mot.mp3" },
       { mot: "ccoho", def: "Quoi?", audioMot: "audios/ccoho_mot.mp3" },
+      { mot: "ccudu", def: "ramasses", audioMot: "audios/ccudu_mot.mp3" },
       { mot: "dida", def: "Pars", audioMot: "audios/dida_mot.mp3" },
+      { mot: "dina", def: "attrape le, attrape ça", audioMot: "audios/dina_mot.mp3" },
+      { mot: "dini", def: "tiens", audioMot: "audios/dini_mot.mp3" },
+      { mot: "feji", def: "Le mouton", audioMot: "audios/feji_mot.mp3" },
+      { mot: "fufu", def: "Le froid", audioMot: "audios/fufu_mot.mp3" },
+      { mot: "ganda", def: "La terre ou le pays", audioMot: "audios/ganda_mot.mp3" },
+      { mot: "gora", def: "assieds-toi", audioMot: "audios/gora_mot.mp3" },
+      { mot: "gungun", def: "Le ventre", audioMot: "audios/gungun_mot.mp3" },
+      { mot: "hamu", def: "La viande", audioMot: "audios/hamu_mot.mp3" },
+      { mot: "ibatan", def: "balle (écorce de céréales)", audioMot: "audios/ibatan_mot.mp3" },
       { mot: "koy", def: "Vas-y (ordre)", audioMot: "audios/koy_mot.mp3" },
-      { mot: "nîn", def: "Toi", audioMot: "audios/nîn_mot.mp3" },
-      { mot: "zawkat", def: "Amène", audioMot: "audios/zawkat_mot.mp3" },
-      { mot: "mànà", def: "Il, c'est où ?", audioMot: "audios/mànà_mot.mp3" },
-
-      // Le reste sans audio
-      { mot: "mané?", def: "Où?", audioMot: null },
-      { mot: "âcci", def: "Il a dit", audioMot: null },
-      { mot: "zàrod", def: "Aujourd’hui", audioMot: null },
-      { mot: "zornád", def: "Avant-hier", audioMot: null },
-      { mot: "tifak", def: "Demain", audioMot: null },
-      { mot: "ccindén", def: "Certains, d'autres", audioMot: null },
-      { mot: "yíli", def: "Sors", audioMot: null }
-
+      { mot: "koykat", def: "viens (ordre de venir)", audioMot: "audios/koykat_mot.mp3" },
+      { mot: "tifak", def: "Demain", audioMot: "audios/tifak_mot.mp3" },
+      { mot: "waccudu", def: "ramassez", audioMot: "audios/waccudu_mot.mp3" },
+      { mot: "wadina", def: "attrapez-le, attrapez ça", audioMot: "audios/wadina_mot.mp3" },
+      { mot: "wagora", def: "asseyez-vous", audioMot: "audios/wagora_mot.mp3" },
+      { mot: "waŋa", def: "mangez", audioMot: "audios/waŋa_mot.mp3" },
+      { mot: "wazuru", def: "courez", audioMot: "audios/wazuru_mot.mp3" },
+      { mot: "yaw", def: "Viens — Ordre de venir", audioMot: "audios/yaw_mot.mp3" },
+      { mot: "yílii", def: "Sors", audioMot: "audios/yílii_mot.mp3" },
+      { mot: "zarod", def: "Aujourd’hui", audioMot: "audios/zarod_mot.mp3" },
+      { mot: "zarose", def: "Après-demain", audioMot: "audios/zarose_mot.mp3" },
+      { mot: "zornad", def: "Avant-hier", audioMot: "audios/zornad_mot.mp3" },
+      { mot: "zuru", def: "coures", audioMot: "audios/zuru_mot.mp3" }
     ];
 
     let index = 0;
@@ -166,13 +157,12 @@
     }
 
     function jouerTadaksahak() {
-      const audio = new Audio();
       const source = mots[index].audioMot;
       if (source) {
-        audio.src = source;
+        const audio = new Audio(source);
         audio.play();
       } else {
-        alert("Audio Tadaksahak non disponible pour ce mot.");
+        alert("Audio Tadaksahak non disponible.");
       }
     }
 
