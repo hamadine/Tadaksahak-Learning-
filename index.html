@@ -45,20 +45,9 @@
     }
     .rond img { border-radius: 50%; }
     #motTexte { font-size: 2rem; font-weight: bold; }
-    #definitionAffichee {
-      font-size: 1.2rem;
-      margin-top: 0.5rem;
-    }
-    #compteur {
-      margin-top: 1rem;
-      font-style: italic;
-      color: #6e4a31;
-    }
-    #navigation {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 2rem;
-    }
+    #definition { font-size: 1.2rem; margin-top: 0.5rem; }
+    #compteur { margin-top: 1rem; font-style: italic; color: #6e4a31; }
+    #navigation { display: flex; justify-content: space-between; margin-top: 2rem; }
     button {
       background-color: var(--bouton);
       color: var(--bouton-texte);
@@ -104,196 +93,48 @@
   </style>
 </head>
 <body>
-  <main>
-    <div class="logo">
-      <img src="images/idaksahak_square_512.png" alt="Logo carré" />
-      <img src="images/idaksahak_round.png" alt="Logo rond" class="rond" />
+<main>
+  <div class="logo">
+    <img src="images/idaksahak_square_512.png" alt="Logo carré" />
+    <img src="images/idaksahak_round.png" alt="Logo rond" class="rond" />
+  </div>
+  <input id="searchBar" type="text" placeholder="Chercher un mot..." oninput="rechercherMot()" />
+  <div class="lang-switch">
+    <button onclick="changerLangue('fr')">Fr</button>
+    <button onclick="changerLangue('en')">En</button>
+    <button onclick="changerLangue('ar')">ع</button>
+  </div>
+  <div id="mot">
+    <h2 id="motTexte">...</h2>
+    <p id="definition">...</p>
+    <p id="compteur">1 / 50</p>
+    <div id="audioButtons">
+      <button id="btnListen" onclick="jouerTadaksahak()">▶️ Écouter</button>
+      <button id="btnReplay" onclick="rejouerMot()">⟳ Rejouer</button>
+      <button id="btnAutoPlay" onclick="lectureAuto()">▶️ Lecture auto</button>
     </div>
-
-    <input id="searchBar" type="text" placeholder="Chercher un mot..." oninput="rechercherMot()" />
-    <div id="mot">
-      <h2 id="motTexte">...</h2>
-      <p id="definitionAffichee">...</p>
-
-      <div class="lang-switch">
-        <button onclick="changerLangue('fr')">Fr</button>
-        <button onclick="changerLangue('en')">En</button>
-        <button onclick="changerLangue('ar')">ع</button>
-      </div>
-
-      <p id="compteur">1 / 50</p>
-      <div id="audioButtons">
-        <button onclick="jouerTadaksahak()">▶️ Écouter</button>
-        <button onclick="rejouerMot()">⟳ Rejouer</button>
-        <button onclick="lectureAuto()">▶️ Lecture auto</button>
-      </div>
-      <div id="navigation">
-        <button onclick="motPrecedent()">◀️ Précédent</button>
-        <button onclick="motSuivant()">Suivant ▶️</button>
-      </div>
+    <div id="navigation">
+      <button id="btnPrev" onclick="motPrecedent()">◀️ Précédent</button>
+      <button id="btnNext" onclick="motSuivant()">Suivant ▶️</button>
     </div>
+  </div><div class="quiz" style="margin-top: 2rem;">
+    <h2 id="quizMot">...</h2>
+    <div id="quizOptions"></div>
+    <p id="quizResult"></p>
+    <p id="quizScore">Score : 0 / 0</p>
+    <button id="btnQuiz" onclick="lancerQuiz()">Nouvelle question</button>
+  </div>
+</main>
+<footer>
+  <p>&copy; 2025 • Tadaksahak Learning</p>
+</footer>
 
-    <div class="quiz" style="margin-top: 2rem;">
-      <h2 id="quizMot">...</h2>
-      <div id="quizOptions"></div>
-      <p id="quizResult"></p>
-      <p id="quizScore">Score : 0 / 0</p>
-      <button onclick="lancerQuiz()">Nouvelle question</button>
-    </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 • Tadaksahak Learning</p>
-  </footer>
-
-  <script>
-    const BASE_URL = "https://hamadine.github.io/Tadaksahak-Learning-/gitkeep/";
-
-    const mots = [
-      { mot: "ábér", fr: "C'est grand ou gros", en: "It is big or large", ar: "إنه كبير أو ضخم", audio: "aber_mot.mp3" },
-      { mot: "abôrâ", fr: "Le sorgho", en: "Sorghum", ar: "الذرة الرفيعة", audio: "abora_mot.mp3" },
-      { mot: "âcci", fr: "Il a dit", en: "He said", ar: "قال", audio: "acci_mot.mp3" },
-      { mot: "adabàra", fr: "Solution", en: "Solution", ar: "حل", audio: "adabara_mot.mp3" },
-      { mot: "ádǝbǝt", fr: "Il, ça peut", en: "He/it can", ar: "يستطيع", audio: "adebet_mot.mp3" },
-      { mot: "ádǝda", fr: "Il est parti", en: "He left", ar: "رحل", audio: "adeda_mot.mp3" },
-      { mot: "aférig", fr: "Enclos", en: "Enclosure", ar: "حظيرة", audio: "aferig_mot.mp3" },
-      { mot: "ákatab", fr: "Une écriture", en: "A writing", ar: "كتابة", audio: "akatab_mot.mp3" },
-      { mot: "akô", fr: "Il, c'est allé", en: "He went", ar: "ذهب", audio: "ako_mot.mp3" },
-      { mot: "alfâjér", fr: "Le matin", en: "Morning", ar: "الصباح", audio: "alfajer_mot.mp3" },
-      { mot: "àlwâq", fr: "L’heure", en: "The time", ar: "الساعة", audio: "alwaq_mot.mp3" },
-      { mot: "Ammúnṣṣû", fr: "La nourriture", en: "Food", ar: "الطعام", audio: "ammunssu_mot.mp3" },
-      { mot: "aṣahar", fr: "Couvercle", en: "Lid", ar: "غطاء", audio: "asahar_mot.mp3" },
-      { mot: "asǝmid", fr: "Semoule de blé", en: "Wheat semolina", ar: "سميد القمح", audio: "asimid_mot.mp3" },
-      { mot: "átri", fr: "L’étoile", en: "Star", ar: "نجمة", audio: "atri_mot.mp3" },
-      { mot: "ážžãmán", fr: "Le temps", en: "Time", ar: "الزمن", audio: "azzaman_mot.mp3" },
-      { mot: "bàngû", fr: "Le puits", en: "The well", ar: "البئر", audio: "bangu_mot.mp3" },
-      { mot: "bãngû", fr: "La tête", en: "The head", ar: "الرأس", audio: "bangu2_mot.mp3" },
-      { mot: "bààri", fr: "Le cheval", en: "The horse", ar: "الحصان", audio: "baari_mot.mp3" },
-      { mot: "ccéédi", fr: "La cuillère", en: "Spoon", ar: "ملعقة", audio: "ccedi_mot.mp3" },
-      { mot: "ccídi", fr: "Le sel", en: "Salt", ar: "الملح", audio: "ccidi_mot.mp3" }
-    ];
-
-    let index = 0;
-    let lectureActive = false;
-    let autoLectureTimeout;
-    let score = 0;
-    let total = 0;
-    let langue = "fr";
-
-    function afficherMot() {
-      const motActuel = mots[index];
-      document.getElementById("motTexte").innerText = motActuel.mot;
-      document.getElementById("definitionAffichee").innerText = motActuel[langue];
-      document.getElementById("compteur").innerText = `${index + 1} / ${mots.length}`;
-    }
-
-    function changerLangue(nouvelleLangue) {
-      langue = nouvelleLangue;
-      document.body.dir = (langue === 'ar') ? 'rtl' : 'ltr';
-      afficherMot();
-    }
-
-    function motSuivant() {
-      index = (index + 1) % mots.length;
-      afficherMot();
-    }
-
-    function motPrecedent() {
-      index = (index - 1 + mots.length) % mots.length;
-      afficherMot();
-    }
-
-    function jouerTadaksahak(i = index) {
-      const audio = new Audio(BASE_URL + mots[i].audio);
-      audio.play().catch(e => alert("Audio indisponible : " + e.message));
-    }
-
-    function rejouerMot() {
-      jouerTadaksahak(index);
-    }
-
-    function lectureAuto() {
-      if (lectureActive) {
-        lectureActive = false;
-        clearTimeout(autoLectureTimeout);
-        alert("Lecture automatique arrêtée.");
-        return;
-      }
-      lectureActive = true;
-      lectureMot(index);
-    }
-
-    function lectureMot(i) {
-      if (!lectureActive || i >= mots.length) {
-        lectureActive = false;
-        return;
-      }
-      index = i;
-      afficherMot();
-      jouerTadaksahak(i);
-      autoLectureTimeout = setTimeout(() => {
-        lectureMot(i + 1);
-      }, 4000);
-    }
-
-    function rechercherMot() {
-      const terme = document.getElementById("searchBar").value.toLowerCase();
-      const found = mots.find(m => m.mot.toLowerCase().includes(terme));
-      if (found) {
-        index = mots.indexOf(found);
-        afficherMot();
-      } else {
-        document.getElementById("motTexte").innerText = "Mot non trouvé";
-        document.getElementById("definitionAffichee").innerText = "";
-        document.getElementById("compteur").innerText = "";
-      }
-    }
-
-    function lancerQuiz() {
-      const i = Math.floor(Math.random() * mots.length);
-      const motChoisi = mots[i];
-      document.getElementById("quizMot").innerHTML =
-        `${motChoisi.mot} <button class="audio" onclick="jouerTadaksahak(${i})">▶️</button>`;
-      const options = [motChoisi[langue]];
-      while (options.length < 4) {
-        const def = mots[Math.floor(Math.random() * mots.length)][langue];
-        if (!options.includes(def)) options.push(def);
-      }
-      options.sort(() => Math.random() - 0.5);
-      const quizOptions = document.getElementById("quizOptions");
-      quizOptions.innerHTML = "";
-      options.forEach((opt) => {
-        const btn = document.createElement("button");
-        btn.textContent = opt;
-        btn.onclick = () => {
-          const result = document.getElementById("quizResult");
-          total++;
-          if (opt === motChoisi[langue]) {
-            score++;
-            result.innerText = "Bonne réponse !";
-            result.style.color = "green";
-          } else {
-            result.innerText = `Faux. Réponse : ${motChoisi[langue]}`;
-            result.style.color = "red";
-          }
-          document.getElementById("quizScore").innerText = `Score : ${score} / ${total}`;
-          Array.from(quizOptions.children).forEach(b => b.disabled = true);
-        };
-        quizOptions.appendChild(btn);
-      });
-    }
-
-    window.onload = () => {
-      afficherMot();
-      lancerQuiz();
-    };
-  </script>
-</body>
-</html><script>
+<script>
 const BASE_URL = "https://hamadine.github.io/Tadaksahak-Learning-/gitkeep/";
+let langue = 'fr';
 
 const mots = [
-  { mot: "ábér", fr: "C'est grand ou gros", en: "It is big or large", ar: "إنه كبير أو ضخم", audio: "aber_mot.mp3" },
+  { mot: "ábér", fr: "C'est grand ou gros", en: "Big or large", ar: "كبير أو ضخم", audio: "aber_mot.mp3" },
   { mot: "abôrâ", fr: "Le sorgho", en: "Sorghum", ar: "الذرة الرفيعة", audio: "abora_mot.mp3" },
   { mot: "âcci", fr: "Il a dit", en: "He said", ar: "قال", audio: "acci_mot.mp3" },
   { mot: "adabàra", fr: "Solution", en: "Solution", ar: "حل", audio: "adabara_mot.mp3" },
@@ -303,44 +144,55 @@ const mots = [
   { mot: "ákatab", fr: "Une écriture", en: "A writing", ar: "كتابة", audio: "akatab_mot.mp3" },
   { mot: "akô", fr: "Il, c'est allé", en: "He went", ar: "ذهب", audio: "ako_mot.mp3" },
   { mot: "alfâjér", fr: "Le matin", en: "Morning", ar: "الصباح", audio: "alfajer_mot.mp3" },
-  { mot: "àlwâq", fr: "L’heure", en: "The time", ar: "الساعة", audio: "alwaq_mot.mp3" },
+  { mot: "àlwâq", fr: "L’heure", en: "Time", ar: "الساعة", audio: "alwaq_mot.mp3" },
   { mot: "Ammúnṣṣû", fr: "La nourriture", en: "Food", ar: "الطعام", audio: "ammunssu_mot.mp3" },
   { mot: "aṣahar", fr: "Couvercle", en: "Lid", ar: "غطاء", audio: "asahar_mot.mp3" },
   { mot: "asǝmid", fr: "Semoule de blé", en: "Wheat semolina", ar: "سميد القمح", audio: "asimid_mot.mp3" },
   { mot: "átri", fr: "L’étoile", en: "Star", ar: "نجمة", audio: "atri_mot.mp3" },
   { mot: "ážžãmán", fr: "Le temps", en: "Time", ar: "الزمن", audio: "azzaman_mot.mp3" },
-  { mot: "bàngû", fr: "Le puits", en: "The well", ar: "البئر", audio: "bangu_mot.mp3" },
-  { mot: "bãngû", fr: "La tête", en: "The head", ar: "الرأس", audio: "bangu2_mot.mp3" },
-  { mot: "bààri", fr: "Le cheval", en: "The horse", ar: "الحصان", audio: "baari_mot.mp3" },
+  { mot: "bàngû", fr: "Le puits", en: "Well", ar: "البئر", audio: "bangu_mot.mp3" },
+  { mot: "bãngû", fr: "La tête", en: "Head", ar: "الرأس", audio: "bangu2_mot.mp3" },
+  { mot: "bààri", fr: "Le cheval", en: "Horse", ar: "الحصان", audio: "baari_mot.mp3" },
   { mot: "ccéédi", fr: "La cuillère", en: "Spoon", ar: "ملعقة", audio: "ccedi_mot.mp3" },
   { mot: "ccídi", fr: "Le sel", en: "Salt", ar: "الملح", audio: "ccidi_mot.mp3" },
   { mot: "ccíǰí", fr: "La nuit", en: "Night", ar: "الليل", audio: "cciji_mot.mp3" },
-  { mot: "ccími", fr: "La vérité", en: "The truth", ar: "الحقيقة", audio: "ccimi_mot.mp3" },
+  { mot: "ccími", fr: "La vérité", en: "Truth", ar: "الحقيقة", audio: "ccimi_mot.mp3" },
   { mot: "ccindén", fr: "Certains, d'autres", en: "Some, others", ar: "بعض، الآخرون", audio: "ccinden_mot.mp3" },
   { mot: "cchòho", fr: "Quoi ?", en: "What?", ar: "ماذا؟", audio: "ccoho_mot.mp3" },
-  { mot: "ccûdû", fr: "Ramasses", en: "Pick up", ar: "اجمع", audio: "ccudu_mot.mp3" },
+  { mot: "ccûdû", fr: "Ramasses", en: "Pick up", ar: "اجمع", audio: "ccudu_mot.mp3" }
+  // Tape `C` pour continuer le bloc suivant avec les 25 mots restants
+];mots.push(
   { mot: "dida", fr: "Pars", en: "Go away", ar: "انصرف", audio: "dida_mot.mp3" },
   { mot: "dina", fr: "Attrape-le", en: "Catch him", ar: "أمسكه", audio: "dina_mot.mp3" },
   { mot: "dini", fr: "Tiens", en: "Take it", ar: "خذ", audio: "dini_mot.mp3" },
-  { mot: "fééǰi", fr: "Le mouton", en: "The sheep", ar: "الخروف", audio: "feji_mot.mp3" },
+  { mot: "fééǰi", fr: "Le mouton", en: "Sheep", ar: "الخروف", audio: "feji_mot.mp3" },
   { mot: "Fûfû", fr: "Le froid", en: "Cold", ar: "البرد", audio: "fufu_mot.mp3" },
-  { mot: "gànda", fr: "La terre", en: "The earth", ar: "الأرض", audio: "ganda_mot.mp3" },
+  { mot: "gànda", fr: "La terre", en: "Earth", ar: "الأرض", audio: "ganda_mot.mp3" },
   { mot: "gôrâ", fr: "Assieds-toi", en: "Sit down", ar: "اجلس", audio: "gora_mot.mp3" },
-  { mot: "gùngŭ", fr: "Le ventre", en: "The belly", ar: "البطن", audio: "gungu_mot.mp3" },
+  { mot: "gùngŭ", fr: "Le ventre", en: "Belly", ar: "البطن", audio: "gungu_mot.mp3" },
   { mot: "hàmù", fr: "La viande", en: "Meat", ar: "اللحم", audio: "hamu_mot.mp3" },
   { mot: "íbatan", fr: "Balle (écorce)", en: "Husk ball", ar: "كرة قشر", audio: "ibatan_mot.mp3" },
   { mot: "koy", fr: "Vas-y (ordre)", en: "Go!", ar: "اذهب", audio: "koy_mot.mp3" },
   { mot: "koykât", fr: "Viens !", en: "Come!", ar: "تعال", audio: "koykat_mot.mp3" },
-  { mot: "tǝfak", fr: "Demain", en: "Tomorrow", ar: "غداً", audio: "tifak_mot.mp3" }
-  // (à suivre dans la partie 3)
-];
+  { mot: "tǝfak", fr: "Demain", en: "Tomorrow", ar: "غداً", audio: "tifak_mot.mp3" },
+  { mot: "wa ccûdû", fr: "Ramassez", en: "Pick up (pl)", ar: "اجمعوا", audio: "waccudu_mot.mp3" },
+  { mot: "wa dina", fr: "Attrapez-le", en: "Catch him (pl)", ar: "أمسكوه", audio: "wadina_mot.mp3" },
+  { mot: "wa gôra", fr: "Asseyez-vous", en: "Sit down (pl)", ar: "اجلسوا", audio: "wagora_mot.mp3" },
+  { mot: "wa ŋâ", fr: "Mangez", en: "Eat (pl)", ar: "كلوا", audio: "wana_mot.mp3" },
+  { mot: "wa zûrû", fr: "Courez", en: "Run (pl)", ar: "اركضوا", audio: "wazuru_mot.mp3" },
+  { mot: "yaw", fr: "Viens", en: "Come", ar: "تعال", audio: "yaw_mot.mp3" },
+  { mot: "yílii", fr: "Sors", en: "Go out", ar: "اخرج", audio: "yili_mot.mp3" },
+  { mot: "zàroda", fr: "Aujourd’hui", en: "Today", ar: "اليوم", audio: "zarod_mot.mp3" },
+  { mot: "zarossé", fr: "Après-demain", en: "Day after tomorrow", ar: "بعد غد", audio: "zarose_mot.mp3" },
+  { mot: "zôrnád", fr: "Avant-hier", en: "Day before yesterday", ar: "أول أمس", audio: "zornad_mot.mp3" },
+  { mot: "zûrû", fr: "Coures", en: "Run", ar: "اركض", audio: "zuru_mot.mp3" }
+);
 
 let index = 0;
 let lectureActive = false;
 let autoLectureTimeout;
 let score = 0;
 let total = 0;
-let langue = "fr";
 
 function afficherMot() {
   const mot = mots[index];
@@ -349,24 +201,15 @@ function afficherMot() {
   document.getElementById("compteur").innerText = `${index + 1} / ${mots.length}`;
 }
 
-function changerLangue(code) {
-  langue = code;
+function changerLangue(lg) {
+  langue = lg;
   afficherMot();
-}
-
-function motSuivant() {
-  index = (index + 1) % mots.length;
-  afficherMot();
-}
-
-function motPrecedent() {
-  index = (index - 1 + mots.length) % mots.length;
-  afficherMot();
+  lancerQuiz();
 }
 
 function jouerTadaksahak(i = index) {
   const audio = new Audio(BASE_URL + mots[i].audio);
-  audio.play().catch(e => alert("Audio indisponible : " + e.message));
+  audio.play().catch(e => alert("Audio indisponible"));
 }
 
 function rejouerMot() {
@@ -377,7 +220,6 @@ function lectureAuto() {
   if (lectureActive) {
     lectureActive = false;
     clearTimeout(autoLectureTimeout);
-    alert("Lecture automatique arrêtée.");
     return;
   }
   lectureActive = true;
@@ -392,23 +234,31 @@ function lectureMot(i) {
   index = i;
   afficherMot();
   jouerTadaksahak(i);
-  autoLectureTimeout = setTimeout(() => {
-    lectureMot(i + 1);
-  }, 4000);
-}function rechercherMot() {
-  const terme = document.getElementById("searchBar").value.toLowerCase();
-  const found = mots.find(m => m.mot.toLowerCase().includes(terme));
-  if (found) {
-    index = mots.indexOf(found);
+  autoLectureTimeout = setTimeout(() => lectureMot(i + 1), 4000);
+}
+
+function motSuivant() {
+  index = (index + 1) % mots.length;
+  afficherMot();
+}
+
+function motPrecedent() {
+  index = (index - 1 + mots.length) % mots.length;
+  afficherMot();
+}
+
+function rechercherMot() {
+  const t = document.getElementById("searchBar").value.toLowerCase();
+  const m = mots.find(m => m.mot.toLowerCase().includes(t));
+  if (m) {
+    index = mots.indexOf(m);
     afficherMot();
   } else {
     document.getElementById("motTexte").innerText = "Mot non trouvé";
     document.getElementById("definition").innerText = "";
     document.getElementById("compteur").innerText = "";
   }
-}
-
-function lancerQuiz() {
+  }function lancerQuiz() {
   const i = Math.floor(Math.random() * mots.length);
   const motChoisi = mots[i];
   document.getElementById("quizMot").innerHTML =
@@ -447,3 +297,13 @@ window.onload = () => {
   lancerQuiz();
 };
 </script>
+
+<!-- Bloc HTML visible dans <body> -->
+<div style="text-align:center; margin-top:1rem">
+  <button onclick="changerLangue('fr')">Français</button>
+  <button onclick="changerLangue('en')">English</button>
+  <button onclick="changerLangue('ar')">العربية</button>
+</div>
+
+</body>
+</html>
