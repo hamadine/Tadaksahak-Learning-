@@ -138,9 +138,7 @@
         <button onclick="motPrecedent()">◀️ Précédent</button>
         <button onclick="motSuivant()">Suivant ▶️</button>
       </div>
-    </div>
-
-    <div class="quiz" style="margin-top: 2rem;">
+    </div><div class="quiz" style="margin-top: 2rem;">
       <h2 id="quizMot">...</h2>
       <div id="quizOptions"></div>
       <p id="quizResult"></p>
@@ -182,7 +180,8 @@
       { mot: "ccími", def: "La vérité", audioMot: "ccimi_mot.mp3" },
       { mot: "ccindén", def: "Certains, d'autres", audioMot: "ccinden_mot.mp3" },
       { mot: "cchòho", def: "Quoi ?", audioMot: "ccoho_mot.mp3" },
-      { mot: "ccûdû", def: "Ramasses", audioMot: "ccudu_mot.mp3" },{ mot: "dida", def: "Pars", audioMot: "dida_mot.mp3" },
+      { mot: "ccûdû", def: "Ramasses", audioMot: "ccudu_mot.mp3" },
+      { mot: "dida", def: "Pars", audioMot: "dida_mot.mp3" },
       { mot: "dina", def: "Attrape-le", audioMot: "dina_mot.mp3" },
       { mot: "dini", def: "Tiens", audioMot: "dini_mot.mp3" },
       { mot: "fééǰi", def: "Le mouton", audioMot: "feji_mot.mp3" },
@@ -212,9 +211,7 @@
     let lectureActive = false;
     let autoLectureTimeout;
     let score = 0;
-    let total = 0;
-
-    function afficherMot() {
+    let total = 0;function afficherMot() {
       const motActuel = mots[index];
       document.getElementById("motTexte").innerText = motActuel.mot;
       document.getElementById("definition").innerText = motActuel.def;
