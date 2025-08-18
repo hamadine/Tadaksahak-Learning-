@@ -31,7 +31,29 @@
     <img src="images/idaksahak_round.png" alt="Logo Tadaksahak" class="logo-header" loading="lazy">
     <h1>Tadaksahak Learning</h1>
     <p>Culture, langue et histoire Idaksahak réunies</p>
-    <div class="bio-container">
+        
+<nav class="menu-deroulant">
+  <select id="sectionSelector" aria-label="Navigation principale">
+    <option value="accueil">🏠 Accueil</option>
+    <option value="dictionnaire">📖 Dictionnaire</option>
+    <option value="chat">💬 Chat</option>
+    <option value="audio">🎧 Albums</option>
+    <option value="photos">🖼️ Photos</option>
+    <option value="videos">🎥 Vidéos</option>
+    <option value="rapports">📄 Rapports</option>
+    <option value="actualites">📰 Actualités</option>
+    <option value="livres">📚 Livres</option>
+    <option value="quiz">❓ Quiz</option>
+  </select>
+</nav>
+  <main>
+    <section id="accueil" class="onglet-contenu">
+      <div class="hero">
+        <h2>Bienvenue sur Tadaksahak Learning</h2>
+        <p>Un espace pour explorer la langue, la culture et l’histoire Idaksahak.</p>
+        <a class="btn" data-tab-link="dictionnaire">Accéder au dictionnaire 📖</a>
+      </div>
+       <div class="bio-container">
   <img src="images/hamadine_bio.jpg" alt="Hamadine Ag Moctar" class="bio-photo" loading="lazy">
   <div class="bio-text">
     <p><strong>Je m'appelle Hamadine Ag Moctar.</strong><br>
@@ -54,29 +76,7 @@
     🔗 Voir mon profil LinkedIn
   </a>
     </p>
-      
-<nav class="menu-deroulant">
-  <select id="sectionSelector" aria-label="Navigation principale">
-    <option value="accueil">🏠 Accueil</option>
-    <option value="dictionnaire">📖 Dictionnaire</option>
-    <option value="chat">💬 Chat</option>
-    <option value="audio">🎧 Albums</option>
-    <option value="photos">🖼️ Photos</option>
-    <option value="videos">🎥 Vidéos</option>
-    <option value="rapports">📄 Rapports</option>
-    <option value="actualites">📰 Actualités</option>
-    <option value="livres">📚 Livres</option>
-    <option value="quiz">❓ Quiz</option>
-  </select>
-</nav>
-  <main>
-    <section id="accueil" class="onglet-contenu">
-      <div class="hero">
-        <h2>Bienvenue sur Tadaksahak Learning</h2>
-        <p>Un espace pour explorer la langue, la culture et l’histoire Idaksahak.</p>
-        <a class="btn" data-tab-link="dictionnaire">Accéder au dictionnaire 📖</a>
-      </div>
-      <p><a href="offline.html">Accès hors-ligne / Offline mode</a></p>
+ </div>
     </section>
 
     <section id="dictionnaire" class="onglet-contenu" hidden>
